@@ -1,103 +1,3 @@
-$(document).ready(function(){
-
-  let orderList = [{
-      "Dealer": "Brazzeal Tire",
-      "accountId": 113939,
-      "locationId": 20201,
-      "CDMemail": "aabdi@tirebuyer.com",
-      "DOSemail": "aabdi@tirebuyer.com",
-      "DealerEmail": "",
-      "POCname": "",
-      "": "",
-      "__1": "",
-      "__2": "",
-      "__3": "",
-      "__4": "",
-      "__5": "",
-      "__6": ""
-    },
-    {
-      "Dealer": "Butler Tire Service, Inc",
-      "accountId": 111636,
-      "locationId": 17055,
-      "CDMemail": "aabdi@tirebuyer.com",
-      "DOSemail": "aabdi@tirebuyer.com",
-      "DealerEmail": "",
-      "POCname": "",
-      "": "",
-      "__1": "",
-      "__2": "",
-      "__3": "",
-      "__4": "",
-      "__5": "",
-      "__6": ""
-    },
-    {
-      "Dealer": "Cartronix Plus, LLC",
-      "accountId": 159434,
-      "locationId": 78572,
-      "CDMemail": "aabdi@tirebuyer.com",
-      "DOSemail": "aabdi@tirebuyer.com",
-      "DealerEmail": "",
-      "POCname": "",
-      "": "",
-      "__1": "",
-      "__2": "",
-      "__3": "",
-      "__4": "",
-      "__5": "",
-      "__6": ""
-    },
-    {
-      "Dealer": "Crown City Tire",
-      "accountId": 523753,
-      "locationId": 1255122,
-      "CDMemail": "aabdi@tirebuyer.com",
-      "DOSemail": "aabdi@tirebuyer.com",
-      "DealerEmail": "",
-      "POCname": "",
-      "": "",
-      "__1": "",
-      "__2": "",
-      "__3": "",
-      "__4": "",
-      "__5": "",
-      "__6": ""
-    },
-    {
-      "Dealer": "Dave's Tire",
-      "accountId": 305189,
-      "locationId": 284058,
-      "CDMemail": "aabdi@tirebuyer.com",
-      "DOSemail": "aabdi@tirebuyer.com",
-      "DealerEmail": "",
-      "POCname": "",
-      "": "",
-      "__1": "",
-      "__2": "",
-      "__3": "",
-      "__4": "",
-      "__5": "",
-      "__6": ""
-    }
-  ];
-  function EmailCampaign(data){
-      this._csrf = _csrf;
-      this.Dealer = data.Dealer;
-      this.accountId = data.accountId;
-      this.locationId = data.locationId;
-    this.DealerEmail = data.DealerEmail;
-    this.POCname = data.POCname;
-      this.DOSemail = data.DOSemail;
-      this.CDMemail = data.CDMemail;
-      this.subject = "TireSeller Update";
-/*
-
-
-
-
-*/
-this.message = `
 <HTML>
 
     <HEAD>
@@ -181,7 +81,7 @@ this.message = `
                                                 <TR>
                                                     <TD style="PADDING-RIGHT: 5px;padding-top: 20px;" vAlign=top></TD>
                                                     <TD style="FONT-SIZE: 16px; FONT-FAMILY: Arial, Helvetica, sans-serif; COLOR: #1e4164; PADDING-BOTTOM: 10px"
-                                                        vAlign = top > This is a custom email specific to: <br>
+                                                        vAlign=top>This is a custom email specific to:  <br>
                                                         Business name: <strong>${this.Dealer}</strong> <br>
                                                         Account Nbr: ${this.accountId} <br>
                                                         Location Nbr: ${this.locationId}
@@ -316,41 +216,3 @@ this.message = `
     </BODY>
 
 </HTML>
-
-  `;
-  }
-  
-  let _csrf = "Pv2GHuU5-D9AinedKnSCXev712hGg0ZGVB6M";
-  let ODurl = 'http://127.0.0.1:3230/notificationemail'
-      let fun = function(x){
-                  $.ajax({
-                          url: ODurl,
-                          type: "POST",
-                          dataType: 'json',
-                          data: JSON.stringify(x),
-                          contentType: 'application/json;charset=UTF-8',
-                          success : function(result) {
-                              // you can see the result from the console
-                              // tab of the developer tools
-                              console.log(result);
-                          },
-                          error: function(xhr, resp, text) {
-                              console.log(xhr, resp, text);
-                          }
-                      })
-            }
-
-  
-for (var index in orderList ) {  
-      // for customers
-  let customer = new EmailCampaign(orderList[index]);
-    customer.CustomerEmail = 'AABDI@tirebuyer.com';
-    customer.POCname = "Mark";
-    customer.subject = `Automated Email: ${customer.POCname}, this is the code for ${customer.Dealer}`;
-    customer.POCname = "Mark";
-    fun(customer);
-
-  }
-  
-});
-
