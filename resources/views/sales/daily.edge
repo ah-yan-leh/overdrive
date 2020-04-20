@@ -1,0 +1,130 @@
+@layout('layouts.salesLayout')
+
+@section('title')
+  OverDrive - Sales
+@endsection
+@section('pageStyles')
+<style>
+</style>
+@endsection
+@section('content')
+ 
+    <div class="col-md-12" id="salesDiv">
+      <h1>Today's Sales</h1>
+        <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title"> 
+                  Total sales of $
+                  <strong id="searchtotals"></strong>
+              </h3>
+            </div>
+            <table  class="table table-striped">
+                <thead>
+                  <th>Type</th>
+                  <th>Sales</th>
+                  <th>Orders</th>
+                  <th>Discounts</th>
+                </thead>
+                <tbody id="totals">
+                </tbody>
+            </table>
+      
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Totals By Rep</h3>
+            </div>
+            <table  class="table table-striped">
+                <thead>
+                  <th>Rep</th>
+                  <th>Sales</th>
+                  <th>Orders</th>
+                  <th>Discounts</th>
+                </thead>
+                <tbody id="sales_orders">
+                </tbody>
+            </table>
+      
+          </div>
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Totals By Rep By Order Type</h3>
+            </div>
+      
+            <table  class="table table-striped">
+                <thead>
+                  <th>Rep</th>
+                  <th>Type</th>
+                  <th>Sales</th>
+                  <th>Tire/Wheel Qty</th>
+                  <th>Accessory Qty</th>
+                  <th>Orders</th>
+                  <th>Discounts</th>
+                </thead>
+                <tbody id="sales_order_types">
+                </tbody>
+            </table>
+      
+          </div>
+    </div>
+    {{script('sales')}}
+    @section('customSalesScriptBottom')
+    <script>
+        $(document).ready(function() {
+          
+            $.getJSON("/api/sales/dailysales", function(result){
+              for(var i in result){
+                console.log(result[i].name)
+              }
+              
+              $("#salesDiv").show()
+              for (var i in result) {
+                  shoppingCart.addByRep(
+                      result[i].user_name,
+                      result[i].amount,
+                      result[i].discount,
+                      result[i].qty,
+                      result[i].accqty
+                  );
+                  shoppingCart.addByRepSalesByOrderType(
+                      result[i].user_name,
+                      result[i].ordertype,
+                      result[i].amount,
+                      result[i].discount,
+                      result[i].qty,
+                      result[i].accqty
+                  );
+                  shoppingCart.addByOrderType(
+                      result[i].ordertype,
+                      result[i].amount,
+                      result[i].discount,
+                      result[i].qty,
+                      result[i].accqty
+                  );
+              }
+  
+              var listSalescart = shoppingCart.listSalesCart();
+  
+              for (var index in listSalescart) {
+                  document.getElementById("sales_orders").innerHTML += "<tr><td>" + listSalescart[index].repname + " </td><td> $ " + listSalescart[index].amount.toFixed(2) + "</td><td>" + listSalescart[index].repSalesOrdercount + "</td><td>$ (" + listSalescart[index].discount.toFixed(2) + ")</td></tr>";
+              }
+              var listreporderstypes = shoppingCart.listRepSalesByOrderTypeCart();
+              for (var index in listreporderstypes) {
+                  document.getElementById("sales_order_types").innerHTML += "<tr><td>" + listreporderstypes[index].repname + "</td><td>" + listreporderstypes[index].ordertype +
+                      " </td><td> $ " + listreporderstypes[index].amount.toFixed(2) +
+                      " </td><td> " + listreporderstypes[index].qty + " </td><td> " + listreporderstypes[index].accqty + " </td><td> " + listreporderstypes[index].repSalesOrderTypecount + "</td><td>$ (" + listreporderstypes[index].discount.toFixed(2) + ")</td></tr>";
+              }
+              var listOrderType = shoppingCart.listOrderTypeCart();
+              for (var index in listOrderType) {
+                  document.getElementById("totals").innerHTML += "<tr><td>" + listOrderType[index].ordertype + " </td><td> $ " + listOrderType[index].amount.toFixed(2) + "</td><td>" + listOrderType[index].orderTypeSalescount + "</td><td>$ (" + listOrderType[index].discount.toFixed(2) + ")</td></tr>";
+              }
+              var teamtotal = 0;
+              for (var index in listOrderType) {
+                teamtotal += parseInt(listOrderType[index].amount.toFixed(2));
+              }
+              document.getElementById("searchtotals").innerHTML = teamtotal;
+            });
+        });
+        </script>
+    @endsection
+@endsection

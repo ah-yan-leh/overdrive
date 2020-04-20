@@ -1,0 +1,303 @@
+@layout('layouts.main')
+
+@section('title')
+  OverDrive - Orders page
+@endsection
+
+@section('content')
+  <div class="col-md-12">        
+    @if(flashMessage('message'))
+      <span>{{ flashMessage('message') }}</span>
+    @endif
+    
+    <table class="table table-striped table-hover ">
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Order #</th>
+          <th>Entered By</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+        <tr>
+          <td> {{order.name}} </td>
+          <td> 
+            
+              <a href="{{ route('TborderController.show', { id: order.tborder_id }) }}"> {{order.ordernumber}}</a>
+
+          </td>
+          <td> {{order.user_name}} </td> 
+          
+  
+          <form class="form-horizontal" 
+            action="{{ route('PriorityreturnController.delete', { id: order.id }) }}" method="POST">
+          <td>
+                {{ csrfField() }}
+                    <dl class="dl-horizontal">
+                        <dt></dt>
+                        <dd>
+                            <input required="required" name="deptstatus" type="checkbox" value="1">
+                        </dd>
+                    </dl>
+            </td>
+            <td>
+                <input type="submit" value="Delete" class="btn btn-primary">     
+                        
+            </td>
+            
+        </form>
+              <td><a href="{{ route('PriorityreturnController.edit', { id: order.id }) }}" class="btn btn-info">Edit</a></td> 
+        </tr>
+      </tbody>
+    </table>
+  </div>
+    <div class="col-md-12">
+            <div class="col-md-6 col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Customer Info</h3>
+                        </div>
+                        <div class="panel-body">
+                                <table class="table table-striped table-hover ">
+                                    <thead>
+                                        <tr>
+                                            <th> </th>
+                                            <th> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr> 
+                                            <td>Name: </td>
+                                            <td> {{order.name}} </td>
+                                        </tr>
+                                        <tr> 
+                                            <td>Order #: </td>
+                                            <td> {{order.ordernumber}} </td>
+                                        </tr>  
+                                        <tr> 
+                                            <td>Email: </td>
+                                            <td> {{order.email}} </td>
+                                        </tr>  
+                                        <tr> 
+                                            <td>Payment type:</td>
+                                            <td> {{order.paymenttype}} </td>
+                                        </tr>        
+                                        <tr> 
+                                            <td>Partner Order # & PO #</td>
+                                            <td> {{order.partner_po_number}} // {{order.partner_order_number}}  </td>
+                                        </tr>                                           
+                                                             
+                                    </tbody>
+                                </table> 
+                        </div>
+                    </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Return Status</h3>
+                        </div>
+                        <div class="panel-body">
+                                <h4>CSR Notes: {{order.ordernotes}}</h4>
+                            @if(order.returnstage == 0)
+                            <h1><span class="label label-default">Stage 0: Actions required</span></h1>
+                            @endif
+                            @if(order.returnstage == 1)
+                            <h1><span class="label label-info">Stage 1: Started</span></h1>
+                            @endif
+                            @if(order.returnstage == 2)
+                            <h1><span class="label label-primary">Stage 2: Picked up</span></h1>
+                            @endif
+                            @if(order.returnstage == 3)
+                            <h1><span class="label label-warning">Stage 3: Received by warehouse</span></h1>
+                            @endif
+                            @if(order.returnstage == 4)
+                            <h1><span class="label label-danger">Stage 4: Waiting for refund</span></h1>
+                            @endif
+                            @if(order.returnstage == 5)
+                            <h1><span class="label label-success">Stage 5: Complete</span></h1>
+                            @endif
+                            @if(order.returnstage > 5)
+                            <h1>Return is No-longer being tracked by anyone</h1>
+                            @endif
+                        </div>
+                    </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Return status</h3>
+                        </div>
+                        <div class="panel-body">
+                                <table class="table table-striped table-hover ">
+                                        <thead>
+                                            <tr>
+                                                <th> </th>
+                                                <th> </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr> 
+                                                <td>Order type:</td>
+                                                <td> {{order.order_type}} </td>
+                                            </tr>
+                                            <tr> 
+                                                <td>Return method: </td>
+                                                <td> {{order.return_method}} </td>
+                                            </tr>  
+                                            <tr> 
+                                                <td>Pickup location: </td>
+                                                <td> {{order.pick_up_location}} </td>
+                                            </tr>  
+                                            <tr> 
+                                                <td>Return status: </td>
+                                                <td> {{order.return_status}} </td>
+                                            </tr>   
+                                            <tr> 
+                                                <td>Return stage: </td>
+                                                <td> {{order.returnstage}} </td>
+                                            </tr>                                      
+                                        </tbody>
+                                    </table> 
+                        </div>
+                    </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Warehouse info:</h3>
+                        </div>
+                        <div class="panel-body">
+                                <table class="table table-striped table-hover ">
+                                        <thead>
+                                            <tr>
+                                                <th> </th>
+                                                <th> </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr> 
+                                                    <td>Ship-to-loc:</td>
+                                                    <td> {{order.locationnumber}} </td>
+                                                </tr>   
+                                            <tr> 
+                                                <td> Warehouse name: </td>
+                                                <td> {{order.warehouse_name}} </td>
+                                            </tr>
+                                            <tr> 
+                                                <td>RMA: </td>
+                                                <td> {{order.rma}} </td>
+                                            </tr>  
+                                            <tr> 
+                                                <td>Invoice #:</td>
+                                                <td> {{order.invoicenumber}} </td>
+                                            </tr> 
+                                            <tr> 
+                                                <td>Return track#</td>
+                                                <td> {{order.returntracking}} </td>
+                                            </tr>                                     
+                                        </tbody>
+                                    </table> 
+                        </div>
+                    </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Refund breakdown:</h3>
+                        </div>
+                        <div class="panel-body">
+                                <table class="table table-striped table-hover ">
+                                        <thead>
+                                            <tr>
+                                                <th> </th>
+                                                <th> </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr> 
+                                                <td>Total paid: </td>
+                                                <td> {{order.totalprice}} </td>
+                                            </tr>
+                                            <tr> 
+                                                <td>Discount: </td>
+                                                <td> {{order.discount}} </td>
+                                            </tr>  
+                                            <tr> 
+                                                <td>Sales tax: </td>
+                                                <td> {{order.salestax}} </td>
+                                            </tr>  
+                                            <tr> 
+                                                <td>Original shipping: </td>
+                                                <td> {{order.initialshipping}} </td>
+                                            </tr>       
+                                            <tr> 
+                                                <td>Return shipping: </td>
+                                                <td> {{order.returnshipping}} </td>
+                                            </tr>       
+                                            <tr> 
+                                                <td>Restocking fee: </td>
+                                                <td> {{order.restockingfee}} </td>
+                                            </tr>       
+                                            <tr> 
+                                                <td>Refund amount: </td>
+                                                <td> {{order.refundamount}} </td>
+                                            </tr>                                      
+                                        </tbody>
+                                    </table> 
+                                    
+                        </div>
+                    </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Return data</h3>
+                        </div>
+                        <div class="panel-body">
+                                <table class="table table-striped table-hover ">
+                                        <thead>
+                                            <tr>
+                                                <th> </th>
+                                                <th> </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr> 
+                                                <td>Credit/Refund status:</td>
+                                                <td>                                                     
+                                                        @if(order.creditstatus == 0)
+                                                        <h1><span class="label label-default">No refund yet</span></h1>
+                                                        @endif
+                                                        @if(order.creditstatus == 1)
+                                                        <h1><span class="label label-success">Refund applied</span></h1>
+                                                        @endif
+                                                </td>
+                                            </tr>
+                                            <tr> 
+                                                <td>End-of-day status: </td>
+                                                <td> {{order.eodstatus}} </td>
+                                            </tr>  
+                                            <tr> 
+                                                <td>Username: </td>
+                                                <td> {{order.user_name}} </td>
+                                            </tr>  
+                                            <tr> 
+                                                <td>Created on: </td>
+                                                <td> {{order.created_at}} </td>
+                                            </tr>   
+                                            <tr> 
+                                                <td>Updated on:</td>
+                                                <td> {{order.updated_at}} </td>
+                                            </tr>                                      
+                                        </tbody>
+                                    </table>                                  
+                                    
+                                    
+                        </div>
+                    </div>
+            </div>
+
+    </div>
+@endsection

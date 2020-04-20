@@ -1,0 +1,77 @@
+@layout('layouts.main')
+
+@section('title')
+  OverDrive - Special Email
+@endsection
+@section('pageStyles')
+<style>
+.grid-container {
+  display: grid;
+  grid-column-gap: 50px;
+  grid-template-columns: auto auto auto;
+  padding: 10px;
+}
+
+.grid-item {
+  border: 1px solid rgba(175, 175, 175, 0.8);
+  padding: 20px;
+  font-size: 30px;
+  text-align: center;
+}
+a.grid-item:hover {
+    background-color: #4e5d6c !important;
+    color:orange;
+    text-decoration-line: none;
+}
+</style>
+@endsection
+
+
+@section('content')
+  <div class="col-md-12">        
+    @if(flashMessage('message'))
+      <span>{{ flashMessage('message') }}</span>
+    @endif
+    
+    
+  </div>
+  <div class="container">
+    <div class="col-sm-4 col-md-4"></div>
+    <div class="col-sm-8 col-md-8">
+        
+        <form class="form-horizontal" action="{{ route('TborderController.customemail') }}" method="POST">
+            {{ csrfField() }}
+                  
+            <div class="col-xs-8">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h1 class="panel-title">Email Form</h1>
+                  </div>
+                  <div class="panel-body">
+                    <br> 
+                    <label for="firstname">First name</label> 
+                    <input required="required" class="form-control" autocomplete="off" placeholder="First name" name="firstname" type="text">
+                    <br> 
+                    <label for="lastname">Last name</label> 
+                    <input required="required" class="form-control" autocomplete="off" placeholder="Last name" name="lastname" type="text" >
+                    <br> 
+                    <label for="email">Email</label> 
+                    <input required="required" class="form-control" autocomplete="off" placeholder="Email" name="email" type="text">
+                    <br> 
+                    <label for="subject">Subject</label> 
+                    <input required="required" class="form-control" autocomplete="off" placeholder="subject" name="subject" type="text">
+                    <br> 
+                    <label for="message">Message</label> 
+                    <br>
+                    <textarea name="message" cols="50" rows="10"></textarea>
+                    <br>
+                  </div>
+                </div>
+                <button class="btn btn-info" type="submit">Send</button>
+              </div>
+        </form>
+
+    </div>
+</div>
+@endsection
+

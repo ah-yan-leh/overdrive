@@ -1,0 +1,15 @@
+@layout('layouts.main')
+
+@section('title')
+  OverDrive - Orders page
+@endsection
+
+@section('content')
+  <h1>Orders page <a href="/tborders/create" class="btn btn-success">New Order</a></h1>
+  <div class="col-md-6">
+    
+    <h1>
+      Order #: {{tborder.ordernumber}}
+    </h1>
+  </div>
+@endsection

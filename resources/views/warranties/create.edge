@@ -1,0 +1,279 @@
+@layout('layouts.main')
+
+@section('title')
+  OverDrive - Orders page
+@endsection
+
+@section('content')
+  <h1>Warranty return for {{tborder.name}}, Order # {{tborder.ordernumber}}</h1>
+  <div class="row">
+        @if(flashMessage('message'))
+            <span>{{ flashMessage('message') }}</span>
+        @endif
+    <form class="form-horizontal" action="{{ route('WarrantyController.create') }}" method="POST">
+        {{ csrfField() }}
+      
+
+        <input  type="hidden" name="tborder_id" value="{{tborder.id}}">
+        <input  type="hidden" name="name" value="{{tborder.name}}">
+        <input  type="hidden" name="ordernumber" value="{{tborder.ordernumber}}">
+
+                <br>
+          <div class="row">
+            
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-xs-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h1 class="panel-title">Return Process</h1>
+                </div>
+                <div class="panel-body">
+                  <br> <label for="Order Type">Order Type</label> 
+              <br> 
+              <select name="order_type">
+                <option value="No Selection by CSR">Select Order Type</option>
+                <option value="Ship-To-Home">Ship-To-Home</option>
+                <option value="Ship-To-Installer">Ship-To-Installer</option>
+                <option value="Vendors">Vendor Drop-Ship</option>
+              </select>
+  
+              <br> 
+              <br> 
+              
+              <label for="Return Method">Return Method</label> 
+              <br> 
+              <select name="return_method">
+                <option value="No Selection by CSR">Select Order Type</option>
+                <option value="FedEx Pick-Up">FedEx Pick-Up</option>
+                <option value="FedEx Drop-Off">FedEx Drop-Off</option>
+                <option value="FedEx Refused Delivery">FedEx Refused Delivery</option>
+                <option value="ATD Route Truck">ATD Route Truck</option><option value="CPU">CPU</option>
+                <option value="Other">Other</option>
+              </select>
+                  <br> 
+              <br> 
+              <label for="Pick-Up Location">Pick-Up Location</label> 
+              <br> 
+              <select name="pick_up_location">
+                <option value="No Selection by CSR">Select Product Pick-Up Location</option>
+                <option value="Billing Address">Billing Address</option>
+                <option value="Delivery Address">Delivery Address</option>
+                <option value="Other">Other</option>
+              </select>
+              <br> 
+              <br> 
+              <label for="Return Status">Return Status</label> 
+              <br>
+              <select name="return_status">
+                <option value="No Selection by CSR">Select Product Pick-Up Location</option>
+                <option value="Ready">Ready</option>
+                <option value="Not-Ready">Not-Ready</option>
+                <option value="Other – Specify">Other – Specify</option>
+              </select>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h1 class="panel-title">Warehouse Info</h1>
+                </div>
+                <div class="panel-body">
+                  <br> 
+                  <label for="Ship To Loc #">Ship To Loc #</label> 
+                  <input required="required" class="form-control" autocomplete="off" placeholder="Oracle Ship To Location Number" name="locationnumber" type="text">
+                  
+                  <br> 
+                  <label for="warehouse_name">Warehouse Name</label> 
+                  <input required="required" class="form-control" autocomplete="off" placeholder="Warehouse Name / Number" name="warehouse_name" type="text" id="warehouse_name">
+                  <br> 
+                  
+                  <label for="rma">Rma</label> 
+                  <input required="required" class="form-control" autocomplete="off" placeholder="RMA / RGA number" name="rma" type="text" id="rma">
+                  <br>
+        
+                </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-xs-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h1 class="panel-title">Refunds/Credit Info</h1>
+                </div>
+                <div class="panel-body">
+                  <br> 
+                  <label for="Total Price">Total Price</label> 
+                  <input required="required" class="form-control" autocomplete="off" placeholder="Total Price" name="totalprice" type="text">
+                  <br> 
+                  <label for="Original Shipping Fee">Original Shipping Fee</label> 
+                  <input required="required" class="form-control" autocomplete="off" placeholder="Original shipping charge" name="initialshipping" type="text">
+                  <br> 
+                  <label for="Return Shipping Fee">Return Shipping Fee</label> 
+                  <input required="required" class="form-control" autocomplete="off" placeholder="Return shipping charge" name="returnshipping" type="text">
+                  <br> 
+                  <label for="Restocking Fee">Restocking Fee</label> 
+                  <input required="required" class="form-control" autocomplete="off" placeholder="Restocking Fee" name="restockingfee" type="text">
+                  <br> 
+                  <label for="Refund Amount">Refund Amount</label> 
+                  <input required="required" class="form-control" autocomplete="off" placeholder="Refund Amount" name="refundamount" type="text" >
+                  <br>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <div class="row">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h1 class="panel-title">Other Info</h1>
+                    </div>
+                    <div class="panel-body">
+                      <br> 
+                      <label for="Payment Type">Payment Type</label> 
+                      <select name="paymenttype">
+                        <option value="No Payment Method Selected">Select Payment Type</option>
+                        <option value="Visa">Visa</option>
+                        <option value="MasterCard">MasterCard</option>
+                        <option value="American Express">American Express</option>
+                        <option value="Discover">Discover</option>
+                        <option value="PayPal">PayPal</option>
+                        <option value="PayPal Invoice">PayPal Invoice</option>
+                        <option value="eBay">eBay</option>
+                        <option value="PurchasingPower">PurchasingPower</option>
+                        <option value="Other">Other Payment Type</option>
+                      </select>
+                      <br> 
+                <br> <label for="Invoice #">Invoice #</label> 
+                <input required="required" class="form-control" autocomplete="off" placeholder="Invoice Number" name="invoicenumber" type="text">
+                      
+                <br> 
+                <label for="Return Stage - ">Return Stage - </label> 
+                <select name="returnstage">
+                  <option value="0">New Return - Actions Required</option>
+                  <option value="1">Started</option>
+                  <option value="2">Picked-up</option>
+                  <option value="3">Delivered</option>
+                  <option value="4">Ready For Credit</option>
+                  <option value="5">Request Completed</option>
+                  <option value="6">Cancel Request</option>
+                </select>
+                      <br>
+                    </div>
+                  </div>
+              </div>
+              <div class="row">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h1 class="panel-title">Partner Order Info</h1>
+                    </div>
+                    <div class="panel-body">
+                      <br> 
+                      <label for="Partner Order Number">Partner Order Number</label> 
+                      <input required="required" class="form-control" autocomplete="off" placeholder="Partner Order Number" name="partner_order_number" type="text">
+                      <br> 
+                      <label for="Partner PO Number">Partner PO Number</label> 
+                      <input required="required" class="form-control" autocomplete="off" placeholder="Partner PO Number" name="partner_po_number" type="text">
+                      <br>
+                    </div>
+                  </div>
+              </div>
+            </div>
+          </div>
+          <br>
+          <div class="row">
+            <div class="col-xs-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h1 class="panel-title">Return Tracking Numbers</h1>
+                </div>
+                <div class="panel-body">
+        
+                  <br> <label for="Return Tracking Numbers">Return Tracking Numbers</label>
+                  <br> <textarea required="required" class="form-control" autocomplete="off" placeholder="Return Tracking Numbers" name="returntracking" cols="50" rows="10"> </textarea>
+                  <br>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h1 class="panel-title">Notes</h1>
+                </div>
+                <div class="panel-body">
+                  <br> <label for="Order Notes">Order Notes</label>
+                  <br> <textarea required="required" class="form-control" autocomplete="off" placeholder="Order Notes" name="ordernotes" cols="50" rows="10"></textarea>
+                  <br>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="row"><div class="col-xs-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h1 class="panel-title">Email</h1>
+                </div>
+                <div class="panel-body">
+                  <br> 
+                  <label for="email">Email</label> 
+                  <input required="required" class="emailbutton form-control" autocomplete="off" placeholder="Customer email" name="email" type="text" id="email">
+                  <br>
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-6">
+                <div class="panel panel-success">
+                  <div class="panel-heading">
+                    <h1 class="panel-title">Submit/Update</h1>
+                  </div>
+                  <div class="panel-body">
+                    <br> <input class="btn btn-success" type="submit" value="Update this return">
+                    <br>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <br>
+    </form>
+  </div>
+@endsection
+
+
+id	
+name	
+ordernumber	
+email	
+order_type	
+return_method	
+pick_up_location	
+return_status	
+partner_order_number	
+partner_po_number	
+warehouse_name	
+warehouse_no	
+rma	
+returntracking	
+ordernotes	
+totalprice	
+discount	
+salestax	
+initialshipping	
+returnshipping	
+restockingfee	
+refundamount	
+paymenttype	
+invoicenumber	
+locationnumber	
+returnstage	
+creditstatus	
+eodstatus	
+approved	
+tborder_id	
+user_id	
+user_name	
+created_at	
+updated_at

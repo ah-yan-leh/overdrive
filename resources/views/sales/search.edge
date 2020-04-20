@@ -1,0 +1,277 @@
+@layout('layouts.salesLayout')
+
+@section('title')
+  OverDrive - Sales
+@endsection
+@section('pageStyles')
+<style>
+</style>
+@endsection
+@section('content')
+ 
+    <div class="col-md-9">
+      <br>
+      <div class="panel panel-success">
+        <div class="panel-heading">
+          <h3 class="panel-title">Search history</h3>
+        </div>
+        <div class="panel-body">
+            <form class="form-horizontal" id="searchform">
+              {{ csrfField() }}
+                    <fieldset>
+                      <div class="form-group">
+                        <label for="name" class="col-lg-2 control-label">From: </label>
+                        <div class="col-lg-10">
+                          <input type="text" id="datepicker1" name="dateOne">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label for="ordernumber" class="col-lg-2 control-label">To: </label>
+                        <div class="col-lg-10">
+                          <input type="text" id="datepicker2" name="dateTwo">
+                        </div>
+                      </div> 
+
+                      <div class="form-group">
+                        <div class="col-lg-10 col-lg-offset-2">
+                              <a href="/" class="btn btn-default">Cancel</a>
+                              <input type="button" name="Submit" value="submit"  id="salesForm" class="btn btn-primary"/>
+                        </div>
+                      </div>
+                    </fieldset>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-12">
+      <ul class="nav nav-tabs">
+        <li class="active"><a href="#main" data-toggle="tab" aria-expanded="true">Team</a></li>
+        <li class=""><a href="#installer" data-toggle="tab" aria-expanded="false">Installer</a>
+        </li>
+        <li class=""><a href="#home" data-toggle="tab" aria-expanded="false">Home</a>
+        </li>
+        <li class=""><a href="#other" data-toggle="tab" aria-expanded="false">Other</a>
+        </li>
+      </ul>
+      <div id="myTabContent" class="tab-content">
+        <div class="tab-pane fade active in" id="main">
+          <div id="salesDiv">
+              <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title"> 
+                        Total sales of $
+                        <strong id="searchtotals"></strong>
+                    </h3>
+                  </div>
+                  <table  class="table table-striped">
+                      <thead>
+                        <th>Type</th>
+                        <th>Sales</th>
+                        <th>Orders</th>
+                        <th>Discounts</th>
+                      </thead>
+                      <tbody id="totals">
+                      </tbody>
+                  </table>
+            
+                </div>
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Totals By Rep</h3>
+                  </div>
+                  <table  class="table table-striped">
+                      <thead>
+                        <th>Rep</th>
+                        <th>Sales</th>
+                        <th>Orders</th>
+                        <th>Discounts</th>
+                      </thead>
+                      <tbody id="sales_orders">
+                      </tbody>
+                  </table>
+            
+                </div>
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h3 class="panel-title">Totals By Rep By Order Type</h3>
+                  </div>
+            
+                  <table  class="table table-striped">
+                      <thead>
+                        <th>Rep</th>
+                        <th>Type</th>
+                        <th>Sales</th>
+                        <th>Tire/Wheel Qty</th>
+                        <th>Accessory Qty</th>
+                        <th>Orders</th>
+                        <th>Discounts</th>
+                      </thead>
+                      <tbody id="sales_order_types">
+                      </tbody>
+                  </table>
+            
+                </div>
+          </div>
+          
+          
+        </div>
+        <div class="tab-pane fade" id="installer">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Listed Installers</h3>
+            </div>
+      
+            <table  class="table table-striped">
+                <thead>
+                  <th>Rep</th>
+                  <th>Type</th>
+                  <th>Net Sale</th>
+                  <th>Tire/Wheel Qty</th>
+                  <th>Accessory Qty</th>
+                  <th>Discounts</th>
+                </thead>
+                <tbody id="rep_sales_order_types_installer">
+                  
+                </tbody>
+            </table>
+      
+          </div>
+          
+          
+        </div>
+        <div class="tab-pane fade" id="home">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">Home/Other Business</h3>
+              </div>
+        
+              <table  class="table table-striped">
+                  <thead>
+                    <th>Rep</th>
+                    <th>Type</th>
+                    <th>Net Sale</th>
+                    <th>Tire/Wheel Qty</th>
+                    <th>Accessory Qty</th>
+                    <th>Discounts</th>
+                  </thead>
+                  <tbody id="rep_sales_order_types_home">
+                    
+                  </tbody>
+              </table>
+        
+            </div>
+            
+          
+          
+        </div>
+        <div class="tab-pane fade" id="other">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title">No Order Type Selected</h3>
+              </div>
+        
+              <table  class="table table-striped">
+                  <thead>
+                    <th>Rep</th>
+                    <th>Type</th>
+                    <th>Net Sale</th>
+                    <th>Tire/Wheel Qty</th>
+                    <th>Accessory Qty</th>
+                    <th>Discounts</th>
+                  </thead>
+                  <tbody id="rep_sales_order_types_other">
+                    
+                  </tbody>
+              </table>
+        
+            </div>
+            
+          
+          
+        </div>
+      </div>
+    </div>
+    {{script('sales')}}
+    @section('customSalesScriptBottom')
+    <script>
+        $("#salesDiv").hide()
+        $(document).ready(function() {
+          var jsonres = {}
+          $("#salesForm").on('click',function(e){
+            var formData = {
+                  'fromdate' : $('input[name=dateOne]').val(),
+                  'todate' : $('input[name=dateTwo]').val()
+              };
+            $.getJSON("/api/sales/search",formData, function(result){ 
+              
+              $("#salesDiv").show()
+              for (var i in result) {
+                jsonres = result;
+                  shoppingCart.addByRep(
+                      result[i].user_name,
+                      result[i].amount,
+                      result[i].discount,
+                      result[i].qty,
+                      result[i].accqty
+                  );
+                  shoppingCart.addByRepSalesByOrderType(
+                      result[i].user_name,
+                      result[i].ordertype,
+                      result[i].amount,
+                      result[i].discount,
+                      result[i].qty,
+                      result[i].accqty
+                  );
+                  shoppingCart.addByOrderType(
+                      result[i].ordertype,
+                      result[i].amount,
+                      result[i].discount,
+                      result[i].qty,
+                      result[i].accqty
+                  );
+              }
+  
+              var listSalescart = shoppingCart.listSalesCart();
+              
+              for (var index in listSalescart) {
+                  document.getElementById("sales_orders").innerHTML += "<tr><td>" + listSalescart[index].repname + " </td><td> $ " + listSalescart[index].amount.toFixed(2) + "</td><td>" + listSalescart[index].repSalesOrdercount + "</td><td>$ (" + listSalescart[index].discount.toFixed(2) + ")</td></tr>";
+              }
+              var listreporderstypes = shoppingCart.listRepSalesByOrderTypeCart();
+              for (var index in listreporderstypes) {
+                  document.getElementById("sales_order_types").innerHTML += "<tr><td>" + listreporderstypes[index].repname + "</td><td>" + listreporderstypes[index].ordertype +
+                      " </td><td> $ " + listreporderstypes[index].amount.toFixed(2) +
+                      " </td><td> " + listreporderstypes[index].qty + " </td><td> " + listreporderstypes[index].accqty + " </td><td> " + listreporderstypes[index].repSalesOrderTypecount + "</td><td>$ (" + listreporderstypes[index].discount.toFixed(2) + ")</td></tr>";
+              }
+              var listOrderType = shoppingCart.listOrderTypeCart();
+              
+              var teamtotal = 0;
+              for (var index in listOrderType) {
+                teamtotal += parseInt(listOrderType[index].amount.toFixed(2));
+              }
+              document.getElementById("searchtotals").innerHTML = teamtotal;
+              for (var index in listOrderType) {
+                  document.getElementById("totals").innerHTML += "<tr><td>" + listOrderType[index].ordertype + " </td><td> $ " + listOrderType[index].amount.toFixed(2) + "</td><td>" + listOrderType[index].orderTypeSalescount + "</td><td>$ (" + listOrderType[index].discount.toFixed(2) + ")</td></tr>";
+              }
+              for(var index in jsonres){
+                if(jsonres[index].ordertype == 2){
+                  document.getElementById("rep_sales_order_types_installer").innerHTML += "<tr><td>" + jsonres[index].user_name + " </td><td> Listed Installer Ord # <a href='/sales/show/" + jsonres[index].id + "'>" + jsonres[index].ordernumber + "</a></td><td> $" + jsonres[index].amount.toFixed(2) + "</td><td>" + jsonres[index].qty + "</td><td>" + jsonres[index].accqty + "</td><td>$ (" + jsonres[index].discount.toFixed(2) + ")</td></tr>";
+                }
+              }
+              for(var index in jsonres){
+                if(jsonres[index].ordertype == 1){
+                  document.getElementById("rep_sales_order_types_home").innerHTML += "<tr><td>" + jsonres[index].user_name + " </td><td> Home Deliv. Ord # <a href='/sales/show/" + jsonres[index].id + "'>" + jsonres[index].ordernumber + "</a></td><td> $" + jsonres[index].amount.toFixed(2) + "</td><td>" + jsonres[index].qty + "</td><td>" + jsonres[index].accqty + "</td><td>$ (" + jsonres[index].discount.toFixed(2) + ")</td></tr>";
+                }
+              }
+              for(var index in jsonres){
+                
+                if(jsonres[index].ordertype == 0){
+                  document.getElementById("rep_sales_order_types_other").innerHTML += "<tr><td>" + jsonres[index].user_name + " </td><td> No Selection Ord # <a href='/sales/show/" + jsonres[index].id + "'>" + jsonres[index].ordernumber + "</a></td><td> $" + jsonres[index].amount.toFixed(2) + "</td><td>" + jsonres[index].qty + "</td><td>" + jsonres[index].accqty + "</td><td>$ (" + jsonres[index].discount.toFixed(2) + ")</td></tr>";
+                }
+              }
+            });
+              e.preventDefault();
+          })
+        });
+        </script>
+    @endsection
+@endsection

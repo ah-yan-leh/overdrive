@@ -1,0 +1,109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>
+      @!section('title')
+    </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    {{style('bootstrap')}}
+    {{style('custom')}}
+    {{style('clear-fix')}}
+
+    @!section('pageStyles')
+<style>
+        body{
+          background-color: black;
+        }
+        .custom-color, .refunds-header{
+            background-color:rgb(101, 235, 179) !important;
+            text-align: center;
+            padding: 5px;
+            color:black;
+        }
+        tr:nth-child(even) {background-color:#4e5d6c;}
+
+</style>
+    @!section('pageScriptsTop')
+
+  </head>
+  <body>
+    <div class="navbar navbar-default navbar-fixed-top">
+        <div class="container-fluid" style="font-size:17px;">
+          <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+              <span class="sr-only">Toggle navigation</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/" style="color:rgb(101, 235, 179);">OverDrive</a>
+          </div>
+          @loggedIn
+            <ul class="nav navbar-nav">
+              <!-- <li class="active"><a href="/tborders">Recent orders <span class="sr-only">(current)</span></a></li> -->
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Sales <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="/sales/search">Sales History</a></li>
+                  <li><a href="/sales-today">Sales Today</a></li>
+                </ul>
+              </li>
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">My activities <span class="caret"></span></a>
+                <ul class="dropdown-menu" role="menu">
+                  <li><a href="/priority-returns">Priority-returns</a></li>
+                  <li><a href="/warranties">Warrranties</a></li>
+                  <li><a href="/credits">Credits</a></li>
+                  <li class="divider"></li>
+                  <li><a href="/team-priority-returns">Team Priority-returns</a></li>
+                  <li class="divider"></li>
+                  <li><a href="/team-warranties">Team Warrranties</a></li>
+                  <li class="divider"></li>
+                  <li><a href="/team-credits">Team Credits</a></li>
+                  <li class="divider"></li>
+                  <li><a href="https://jira2.atd-us.com/servicedesk/customer/portal/41/group/82" target="_blank">
+                    Jira -New Request</a>
+                  </li>
+                  <li><a href="https://jira2.atd-us.com/projects/DO/queues/custom/246" target="_blank">
+                    Jira - Check Open Requests</a>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+            <form class="navbar-form navbar-left" role="search"
+              action="{{ route('TborderController.search') }}" method="GET">
+              <div class="form-group">
+                <input type="text" class="form-control" placeholder="Search order #" name="ordernumber">
+              </div>
+              <button type="submit" class="btn btn-info">Submit</button>
+            </form>
+            <ul class="nav navbar-nav navbar-right">
+                  <li><a href="/logout">Logout</a></li>
+                  <li><a href="/daily-refunds">Daily refunds</a></li>
+            </ul>
+            @else
+            <ul class="nav navbar-nav navbar-right">
+                  <li><a href="/login">Login</a></li>
+                  <li><a href="/signup">Signup</a></li>
+            </ul>
+            @endloggedIn
+        </div>
+    </div>
+
+
+    <div class="container">
+
+      @!section('content')
+
+
+    </div>
+    {{script('jquery')}}
+    {{script('bootstrap')}}
+    {{script('custom')}}
+    
+    @!section('pageScriptsBottom')
+  </body>
+</html>

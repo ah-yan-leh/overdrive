@@ -1,0 +1,144 @@
+@layout('layouts.main')
+
+@section('title')
+  OverDrive - Order activities
+@endsection
+@section('pageStyles')
+<style> 
+    .custom-panel-heading{
+      background-color: #6a6e73 !important;
+      font-weight: bold;
+    } 
+</style>
+
+@endsection
+@section('content')
+<div class="row">
+    <div class="col-md-12 col-lg-12">
+        <h2>Order activities</h2>
+        
+        <div class="panel panel-default">
+            <div class="panel-heading custom-panel-heading">Order info</div>
+            <div class="panel-body">
+                <div class="col-md-6 col-lg-6">
+                    <h4>Name: {{order.name}} </h4>
+                    <h4>Order #: {{order.ordernumber}} </h4>
+                    <h4>Entered by: {{order.user_name}} </h4> 
+                </div>
+                <div class="col-md-6 col-lg-6">
+          
+                    
+                    <form 
+                      action="{{ route('TborderController.delete', { id: order.id }) }}" method="POST">
+                          {{ csrfField() }}
+                          
+                          <input type="submit" value="Delete" class="btn btn-primary">
+                          <input required="required" name="deptstatus" type="checkbox" value="1">
+                  </form>
+                  <br>
+                  <a href="{{ route('TborderController.edit', { id: order.id }) }}" class="btn btn-info">Edit</a>
+                </div>
+            </div>
+          </div>
+      </div>
+</div>
+<div class="panel panel-warning">
+    <div class="panel-default">
+    </div>
+    <div class="panel-body">
+        <a href="/tborders/{{order.id}}/Priority-returns/create" class="btn btn-info">
+          New priority-return
+        </a>
+        <a href="/tborders/{{order.id}}/warranties/create" class="btn btn-info">New warranty-return</a>
+        <a href="/tborders/{{order.id}}/credits/create" class="btn btn-info">New misc credits </a>
+        <a href="/tborders/{{order.id}}/sales/create" class="btn btn-info">New sale </a>
+    </div>
+    <div class="panel-default">
+    </div>
+  </div>
+  <div class="row">
+
+    @if(flashMessage('message'))
+        
+        <div class="col-md-12">
+          <div class="alert alert-dismissible alert-warning">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {{{ flashMessage('message') }}}
+          </div>
+        </div>
+    @endif
+      <div class="col-sm-12 col-md-12 col-lg-12">
+          @if(priorityreturns)
+            @each(order in priorityreturns)
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                  <div class="panel panel-default">
+                      <div class="panel-heading custom-panel-heading">
+                        <h3 class="panel-title">Priority-returns</h3>
+                      </div>
+                      <div class="panel-body">
+                          <div class="list-group">
+                                  <a href="{{ route('PriorityreturnController.show', { id: order.id }) }}" class="list-group-item">
+                                    Entered by {{order.user_name}} on <br> {{order.created_at}}</a>
+                          </div>
+                      </div>
+                    </div>
+              </div>
+            @endeach
+          @endif
+
+          @if(sales)
+            @each(order in sales)
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                  <div class="panel panel-default">
+                      <div class="panel-heading custom-panel-heading">
+                        <h3 class="panel-title">Phone order</h3>
+                      </div>
+                      <div class="panel-body">
+                          <div class="list-group">
+                                  <a href="{{ route('SaleController.show', { id: order.id }) }}" class="list-group-item">
+                                    Entered by {{order.user_name}} on <br> {{order.created_at}}</a>
+                          </div>
+                      </div>
+                    </div>
+              </div>
+            @endeach
+          @endif
+
+          @if(warranties)
+            @each(order in warranties)
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                  <div class="panel panel-default">
+                      <div class="panel-heading custom-panel-heading">
+                        <h3 class="panel-title">Warranty-returns</h3>
+                      </div>
+                      <div class="panel-body">
+                          <div class="list-group">
+                                  <a href="{{ route('WarrantyController.show', { id: order.id }) }}" class="list-group-item">
+                                    Entered by {{order.user_name}} on <br> {{order.created_at}}</a>
+                          </div>
+                      </div>
+                    </div>
+              </div>
+            @endeach
+          @endif
+          
+          @if(credits)
+            @each(order in credits)
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                  <div class="panel panel-default">
+                      <div class="panel-heading custom-panel-heading">
+                        <h3 class="panel-title">Misc refunds</h3>
+                      </div>
+                      <div class="panel-body">
+                          <div class="list-group">
+                                  <a href="{{ route('CreditController.show', { id: order.id }) }}" class="list-group-item">
+                                    Entered by {{order.user_name}} on <br> {{order.created_at}}</a>
+                          </div>
+                      </div>
+                    </div>
+              </div>
+            @endeach
+          @endif
+      </div>
+    </div>
+@endsection

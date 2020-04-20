@@ -1,0 +1,74 @@
+@layout('layouts.salesLayout')
+
+@section('title')
+  OverDrive - Sales
+@endsection
+@section('pageStyles')
+<style>
+</style>
+@endsection
+@section('content')
+  <h1>Edit sale</h1>
+  <div class="row">
+        @if(flashMessage('message'))
+            <span>{{ flashMessage('message') }}</span>
+        @endif
+    <h2>Update the Sale for Order # {{tborder.ordernumber}}, {{tborder.name}}</h2>       
+    <div class="col-md-9">
+      <form class="form-horizontal" action="{{ route('SaleController.update', { id: tborder.id }) }}" method="POST">
+            {{ csrfField() }}
+
+            <input  type="hidden" name="tborder_id" value="{{tborder.id}}">
+            <input  type="hidden" name="name" value="{{tborder.name}}">
+            <input  type="hidden" name="ordernumber" value="{{tborder.ordernumber}}">                                                    
+        <div class="form-group">
+          <label for="Order Type">Order Type</label>		
+          <select name="ordertype"><option value="0">Please Select</option>
+            <option value="1">Ship To Home</option>
+            <option value="2">Ship To TireBuyer Installer</option>
+          </select>	
+        </div>
+        <div class="form-group">		
+          <label for="Total Price Paid By Customer">Total Price Paid By Customer</label>	
+          <input required="required" class="form-control" autocomplete="off"  value="{{tborder.totalprice}}" name="totalprice" type="text">
+        </div>	
+        
+        
+        <div class="form-group">		
+          <label for="Discount Amount ">Discount Amount </label>	
+          <input required="required" class="form-control" autocomplete="off" value="{{tborder.discount}}"  name="discount" type="text">
+        </div>	
+        
+        <div class="form-group">		
+          <label for="Sales Tax Amount">Sales Tax Amount</label>	
+          <input required="required" class="form-control" autocomplete="off" value="{{tborder.salestax}}"  name="salestax" type="text">
+        </div>	
+        
+        <div class="form-group">		
+          <label for="Shipping Fee">Shipping Fee</label>	
+          <input required="required" class="form-control" autocomplete="off"  value="{{tborder.shipping}}"   name="shipping" type="text">
+        </div>	
+        <div class="form-group">		
+          <label for="Tire/Wheel Quantity">Tire/Wheel Quantity</label>	
+          <input required="required" class="form-control" autocomplete="off" placeholder="Tire/Wheel Quantity" name="qty" type="text" value="{{tborder.qty}}"   >
+        </div>	
+        <div class="form-group">		
+          <label for="Accessory/Other Quantity">Accessory/Other Quantity</label>	
+          <input required="required" class="form-control" autocomplete="off"  value="{{tborder.accqty}}" name="accqty" type="text">
+        </div>	
+        <div class="form-group">
+          <br>
+          <label for="name">Date order placed: </label>
+            <input class="form-control" type="text" id="datepicker1" name="dateOne">
+        </div>
+        
+        <div class="form-group">
+          <input class="btn btn-success" type="submit" value="Submit a New Sales Order Request">
+        </div>
+        
+                  
+                                            
+        </form> 
+    </div>
+  </div>
+@endsection

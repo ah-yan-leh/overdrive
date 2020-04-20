@@ -1,0 +1,61 @@
+@layout('layouts.main')
+
+@section('title')
+  OverDrive - Orders page
+@endsection
+
+@section('content')
+  <h1>Warranties</h1>
+  <div class="col-md-12">
+    
+    <table class="table table-striped table-hover ">
+      <thead>
+        <tr class="custom-color">
+          <th></th>
+          <th>Name</th>
+          <th>Order #</th>
+          <th>Entered By</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+          @each(order in tborders)
+        <tr>
+          
+            <td> 
+                @if(order.returnstage == 0)
+                <h4><span class="label label-default">Stage 0: Actions required</span></h4>
+                @endif
+                @if(order.returnstage == 1)
+                <h4><span class="label label-info">Stage 1: Started</span></h4> 
+                @endif
+                @if(order.returnstage == 2)
+                <h4><span class="label label-primary">Stage 2: Picked up</span></h4>
+                @endif
+                @if(order.returnstage == 3)
+                <h4><span class="label label-warning">Stage 3: Received by warehouse</span></h4>
+                @endif
+                @if(order.returnstage == 4)
+                <h4><span class="label label-danger">Stage 4: Waiting for refund</span></h4>
+                @endif
+                @if(order.returnstage == 5)
+                <h4><span class="label label-success">Stage 5: Complete</span></h4>
+                @endif
+                @if(order.returnstage > 5)
+                <h4><span class="label label-default">Return is No-longer being tracked by anyone</span></h4>
+                @endif
+            </td>
+          <td> {{order.name}} </td>
+          <td> 
+              <a href="{{ route('WarrantyController.show', { id: order.id }) }}">{{order.ordernumber}}</a>
+          </td>
+          <td> {{order.user_name}} </td> 
+          
+                <td><a href="{{ route('WarrantyController.edit', { id: order.id }) }}" class="btn btn-info">Edit</a></td> 
+        </tr>
+        @endeach
+      </tbody>
+    </table>
+  </div>
+@endsection

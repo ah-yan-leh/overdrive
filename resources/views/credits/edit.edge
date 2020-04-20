@@ -1,0 +1,133 @@
+@layout('layouts.main')
+
+@section('title')
+  OverDrive - Orders page
+@endsection
+@section('pageStyles')
+<style>
+</style>
+@endsection
+@section('content')
+  <h1>New Order</h1>
+  <div class="row">
+        @if(flashMessage('message'))
+            <span>{{ flashMessage('message') }}</span>
+        @endif
+    <form  class="form-horizontal" action="{{ route('CreditController.update', { id: tborder.id }) }}" method="POST">
+        {{ csrfField() }}
+      
+
+        <input  type="hidden" name="tborder_id" value="{{tborder.id}}">
+        <input  type="hidden" name="name" value="{{tborder.name}}">
+        <input  type="hidden" name="ordernumber" value="{{tborder.ordernumber}}">
+
+          <br>
+          
+          <div class="row">
+            <div class="col-xs-6 col-md-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h1 class="panel-title">Email</h1>
+                </div>
+                <div class="panel-body">
+                  <br> 
+                  <label for="email">Email</label> 
+                  <input required="required" class="emailbutton form-control" autocomplete="off" placeholder="Customer email" name="email" type="text" id="email" value="{{tborder.email}}">
+                  <br> 
+                </div>
+              </div>
+            </div>
+            <div class="col-xs-6 col-md-6">
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h1 class="panel-title">Notes</h1>
+                </div>
+                <div class="panel-body">
+                  <br> 
+                  <label for="Order Notes">Order Notes</label>
+                  <br> 
+                  <textarea required="required" class="form-control" autocomplete="off" placeholder="Order Notes" name="requestnotes" cols="50" rows="6"> {{tborder.requestnotes}} </textarea>
+                  <br>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="row">
+              <div class="col-xs-6">
+                  <div class="panel panel-default">
+                    <div class="panel-heading">
+                      <h1 class="panel-title"></h1>
+                    </div>
+                    <div class="panel-body">
+                        <br>
+                        <label for="locationnumber">Ship To Loc #</label> 
+                        <input required="required" class="form-control" autocomplete="off" placeholder="Oracle Ship To Location Number" name="locationnumber" type="text" value="{{tborder.locationnumber}}">
+                        
+                        <br> 
+                        <label for="invoicenumber">Invoice #</label> 
+                        <input required="required" class="form-control" autocomplete="off" placeholder="Invoice # " name="invoicenumber" type="text" value="{{tborder.invoicenumber}}">
+                        
+                        <br> 
+                        <label for="partner_order_number">Partner Order #</label> 
+                        <input required="required" class="form-control" autocomplete="off" placeholder="Partner Order # " name="partner_order_number" type="text" value="{{tborder.partner_order_number}}">
+                        
+                        <br> 
+                        <label for="partner_po_number">Partner PO #</label> 
+                        <input required="required" class="form-control" autocomplete="off" placeholder="Partner PO #" name="partner_po_number" type="text" value="{{tborder.partner_po_number}}">
+                        
+                    </div>
+                  </div>
+                </div>
+            
+              <div class="col-xs-6 col-md-6">
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h1 class="panel-title">Refund Info</h1>
+                  </div>
+                  <div class="panel-body">
+                      <br> 
+                          <label for="Payment Type">Payment Type</label> 
+                          <select name="paymenttype">
+                            <option value="No Payment Method Selected">Select Payment Type</option>
+                            <option value="Visa">Visa</option>
+                            <option value="MasterCard">MasterCard</option>
+                            <option value="American Express">American Express</option>
+                            <option value="Discover">Discover</option>
+                            <option value="PayPal">PayPal</option>
+                            <option value="PayPal Invoice">PayPal Invoice</option>
+                            <option value="eBay">eBay</option>
+                            <option value="PurchasingPower">PurchasingPower</option>
+                            <option value="Newegg">Newegg</option>
+                            <option value="Other">Other Payment Type</option>
+                          </select>
+                    <br> 
+                    <br>
+                    <label for="amount">Refund $</label> 
+                    <input required="required" class="form-control" autocomplete="off" placeholder="Refund $$" name="amount" type="text" value="{{tborder.amount}}">
+                    
+          
+                  </div>
+                </div>
+                <div class="panel panel-default">
+                  <div class="panel-heading">
+                    <h1 class="panel-title">Submit/Update</h1>
+                  </div>
+                  <div class="panel-body">
+                    <br> <input class="btn btn-success" type="submit" value="Update">
+                    <br>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+          <div class="row">
+            
+              <div class="col-xs-6">
+                </div>
+          </div>
+          <br>
+          
+      </form>
+  </div>
+@endsection

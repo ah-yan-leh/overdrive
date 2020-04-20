@@ -1,0 +1,76 @@
+@layout('layouts.salesLayout')
+
+@section('title')
+  OverDrive - Sales
+@endsection
+@section('pageStyles')
+<style>
+</style>
+@endsection
+@section('content')
+      <div class="row">
+            @if(flashMessage('message'))
+                <span>{{ flashMessage('message') }}</span>
+            @endif
+            <div class="col-md-9">                                
+                <h2>Enter a Sale for Order # {{tborder.ordernumber}}, {{tborder.name}}</h2>       
+                <form class="form-horizontal" action="{{ route('SaleController.create') }}" method="POST">
+                    {{ csrfField() }}
+
+                    <input  type="hidden" name="tborder_id" value="{{tborder.id}}">
+                    <input  type="hidden" name="name" value="{{tborder.name}}">
+                    <input  type="hidden" name="ordernumber" value="{{tborder.ordernumber}}">                                                    
+                <div class="form-group">
+                  <label for="Order Type">Order Type</label>		
+                  <select name="ordertype"><option value="0">Please Select</option>
+                    <option value="1">Ship To Home</option>
+                    <option value="2">Ship To TireBuyer Installer</option>
+                  </select>	
+                </div>
+                <div class="form-group">		
+                  <label for="Total Price Paid By Customer">Total Price Paid By Customer</label>	
+                  <input required="required" class="form-control" autocomplete="off" placeholder="Total Price Paid By Customer" name="totalprice" type="text">
+                </div>	
+                
+                
+                <div class="form-group">		
+                  <label for="Discount Amount ">Discount Amount </label>	
+                  <input required="required" class="form-control" autocomplete="off" placeholder="Discount Amount" name="discount" type="text">
+                </div>	
+                
+                <div class="form-group">		
+                  <label for="Sales Tax Amount">Sales Tax Amount</label>	
+                  <input required="required" class="form-control" autocomplete="off" placeholder="Sales Tax Amount" name="salestax" type="text">
+                </div>	
+                
+                <div class="form-group">		
+                  <label for="Shipping Fee">Shipping Fee</label>	
+                  <input required="required" class="form-control" autocomplete="off" placeholder="Shipping Fee" name="shipping" type="text">
+                </div>	
+                <div class="form-group">		
+                  <label for="Tire/Wheel Quantity">Tire/Wheel Quantity</label>	
+                  <input required="required" class="form-control" autocomplete="off" placeholder="Tire/Wheel Quantity" name="qty" type="text">
+                </div>	
+                <div class="form-group">		
+                  <label for="Accessory/Other Quantity">Accessory/Other Quantity</label>	
+                  <input required="required" class="form-control" autocomplete="off" placeholder="Accessory/Other Quantity" name="accqty" type="text">
+                </div>	
+                <div class="form-group">
+                  <br>
+                  <label for="name">Date order placed: </label>
+                    <input class="form-control" type="text" id="datepicker1" name="dateOne">
+                </div>
+                
+                <div class="form-group">
+                  <input class="btn btn-success" type="submit" value="Submit a New Sales Order Request">
+                </div>
+                
+                           
+                                                    
+                </form>   
+                
+                </div>
+    
+    </div>
+
+    @endsection

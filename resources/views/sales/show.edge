@@ -1,0 +1,174 @@
+@layout('layouts.main')
+
+@section('title')
+  OverDrive - Orders page
+@endsection
+
+@section('content')
+  <div class="col-md-6">        
+    @if(flashMessage('message'))
+      <span>{{ flashMessage('message') }}</span>
+    @endif
+    
+    
+  </div>
+  
+  
+    <div class="col-md-12">      
+        
+        <table class="table table-striped table-hover ">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Order #</th>
+                <th>Entered By</th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
+              <tr>
+                <td> {{order.name}} </td>
+                <td> 
+                  
+                    <a href="{{ route('SaleController.show', { id: order.id }) }}"> {{order.ordernumber}}</a>
+      
+                </td>
+                <td> {{order.user_name}} </td> 
+                
+        
+                <form class="form-horizontal" 
+                  action="{{ route('SaleController.delete', { id: order.id }) }}" method="POST">
+                <td>
+                      {{ csrfField() }}
+                          <dl class="dl-horizontal">
+                              <dt></dt>
+                              <dd>
+                                  <input required="required" type="checkbox">
+                              </dd>
+                          </dl>
+                  </td>
+                  <td>
+                      <input type="submit" value="Delete" class="btn btn-primary">     
+                              
+                  </td>
+                  
+              </form>
+      
+                    <td><a href="{{ route('SaleController.edit', { id: order.id }) }}" class="btn btn-info">Edit</a></td> 
+              </tr>
+            </tbody>
+          </table>
+        <div class="col-sm-12 col-md-12">
+            @if(order.ordertype == 2)
+            <div class="panel panel-success">
+                <div class="panel-heading">
+                    <h3 class="panel-title">ATD Installer delivery</h3>
+                </div>
+            </div>
+            @endif
+            
+            @if(order.ordertype == 1)
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Home delivery</h3>
+                </div>
+            </div>
+            @endif
+        </div>
+        
+            <div class="col-sm-12 col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title">Order breakdown</h3>
+                        </div>
+                        <div class="panel-body">
+                                <table class="table table-striped table-hover ">
+                                    <thead>
+                                        <tr>
+                                            <th> </th>
+                                            <th> </th>
+                                            <th> </th>
+                                            <th> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr> 
+                                            <td> Total Paid </td>
+                                            <td> ${{order.totalprice}} </td>
+                                            <td> </td>
+                                            <td> </td>
+                                        </tr>
+                                        <tr> 
+                                            <td> Discounts </td>
+                                            <td>  </td>
+                                            <td>- ${{order.discount}} </td>
+                                            <td> </td>
+                                        </tr>
+                                        <tr> 
+                                            <td> Tax </td>
+                                            <td>  </td>
+                                            <td>- ${{order.salestax}} </td>
+                                            <td> </td>
+                                        </tr>
+                                        <tr> 
+                                            <td> Shipping cost </td>
+                                            <td>  </td>
+                                            <td>- ${{order.shipping}} </td>
+                                            <td></td>
+                                        </tr>
+                                        <tr> 
+                                            <td> Net amount </td>
+                                            <td> </td>
+                                            <td> </td>
+                                            <td> ${{order.amount}} </td>
+                                        </tr>
+                                    </tbody>
+                                </table> 
+                        </div>
+                    </div>
+            </div>
+            <div class="col-sm-12 col-md-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"></h3>
+                        </div>
+                        <div class="panel-body">
+                                <table class="table table-striped table-hover ">
+                                    <thead>
+                                        
+                                        <tr>
+                                        <th> </th>
+                                        <th> </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr> 
+                                        <td>Tires/wheels</td>
+                                        <td> {{order.qty}} </td>
+                                        </tr>
+                                        <tr> 
+                                            <td>Accessories/other</td>
+                                            <td> {{order.accqty}} </td>
+                                        </tr>
+                                        <tr> 
+                                            <td>Date ordered</td>
+                                            <td> {{order.created_at}} </td>
+                                        </tr>
+                                        <tr> 
+                                            <td>Order placed by</td>
+                                            <td> {{order.user_name}} </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Order history</td>
+                                            <td> 
+                                                <a href="{{ route('TborderController.show', { id: order.tborder_id }) }}"> {{order.ordernumber}}</a>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table> 
+                        </div>
+                    </div>
+            </div>
+            
+    </div>
+@endsection

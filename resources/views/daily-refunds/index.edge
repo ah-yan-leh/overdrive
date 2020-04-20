@@ -1,0 +1,210 @@
+@layout('layouts.main')
+
+@section('title')
+  OverDrive - Orders page
+@endsection
+
+@section('pageStyles')
+    <style>
+    </style>
+@endsection
+@section('content')
+
+  <h1>Refunds page</h1>
+  @if(warranties)
+
+  <div class="col-md-12">
+      <h3 class="refunds-header"> Warranty refunds </h3>
+    
+      <table class="table table-striped table-hover ">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>RMA No.</th>
+            <th>Loc No.</th>
+            <th>Payment Type</th>
+            <th>Refund Amount</th>
+            <th>Order #</th>
+            <th>Entered By</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+            @each(order in warranties)
+          <tr>
+            <td> {{$loop.index + 1}} </td>
+            <td> {{order.name}} </td>
+            <td> 
+                <a href="{{ route('WarrantyController.show', { id: order.id }) }}">{{order.ordernumber}}</a>
+            </td>
+            <td> {{order.rma}} </td>
+            <td> {{order.locationnumber}} </td>
+            <td> {{order.paymenttype}} </td>
+            <td>$ {{order.refundamount}} </td>
+            <td> {{order.user_name}} </td> 
+
+                <td><a href="{{ route('WarrantyController.edit', { id: order.id }) }}" class="btn btn-info">Edit</a></td> 
+  
+                <form class="form-horizontal" 
+                    action="{{ route('DailyrefundController.refundsUpdateWarranty', { id: order.id }) }}" method="POST">
+                  <td>
+                        {{ csrfField() }}
+                            <dl class="dl-horizontal">
+                                <dt>Return: Complete</dt>
+                                <dd>
+                                    <input required="required" name="returnstage" type="checkbox" value="5">
+                                </dd>
+                                <dt>Credit: Complete</dt>
+                                <dd>
+                                    <input required="required" name="creditstatus" type="checkbox" value="1">
+                                </dd>
+                            </dl>
+                    </td>
+                    <td>
+                        <input type="submit" value="Apply" class="btn btn-success">     
+                                
+                    </td>
+                    
+                </form>
+          </tr>
+          @endeach
+        </tbody>
+      </table>
+    </div>
+  @endif
+
+  
+  @if(priorityreturns)
+
+  <div class="col-md-12">
+      <h3 class="refunds-header"> Priority refunds </h3>
+      <table class="table table-striped table-hover ">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Order #</th>
+            <th>RMA No.</th>
+            <th>Loc No.</th>
+            <th>Payment Type</th>
+            <th>Refund Amount</th>
+            <th>Entered By</th>
+            <th></th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+            @each(order in priorityreturns)
+          <tr>
+            <td> {{$loop.index + 1}} </td>
+            <td> {{order.name}} </td>
+            <td> 
+                <a href="{{ route('PriorityreturnController.show', { id: order.id }) }}">
+                  {{order.ordernumber}}</a>
+            </td>
+            <td> {{order.rma}} 
+              <br> Inv #: {{order.invoicenumber}}
+            </td>
+            <td> {{order.locationnumber}} </td>
+            <td> {{order.paymenttype}} </td>
+            <td> $ {{order.refundamount}} </td>
+            <td> {{order.user_name}} </td> 
+
+                <td>
+                    <a href="{{ route('PriorityreturnController.edit', { id: order.id }) }}" class="btn btn-info">Edit</a>
+                  </td> 
+  
+          <form class="form-horizontal" 
+              action="{{ route('DailyrefundController.refundsUpdatePriorityreturn', { id: order.id }) }}" method="POST">
+            <td>
+                  {{ csrfField() }}
+                      <dl class="dl-horizontal">
+                          <dt>Return: Complete</dt>
+                          <dd>
+                              <input required="required" name="returnstage" type="checkbox" value="5">
+                          </dd>
+                          <dt>Credit: Complete</dt>
+                          <dd>
+                              <input required="required" name="creditstatus" type="checkbox" value="1">
+                          </dd>
+                      </dl>
+              </td>
+              <td>
+                  <input type="submit" value="Apply" class="btn btn-success">     
+                          
+              </td>
+              
+          </form>
+          </tr>
+          @endeach
+        </tbody>
+      </table>
+    </div>
+  @endif
+
+  @if(credits)
+
+  <div class="col-md-12">
+      <h3 class="refunds-header"> Misc credits/refunds </h3>
+      <table class="table table-striped table-hover ">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Name</th>
+              <th>Order #</th>
+              <th>Credit $</th>
+              <th>Loc #</th>
+              <th>Payment Type</th>
+              <th>Inv #</th>
+              <th>Entered By</th>
+              <th></th>
+              <th></th>
+    
+            </tr>
+          </thead>
+          <tbody>
+              @each(order in credits)
+            <tr>
+              <td> {{$loop.index + 1}} </td>
+              <td> {{order.name}} </td>
+              <td> 
+                  <a href="{{ route('CreditController.show', { id: order.id }) }}">
+                    {{order.ordernumber}}</a>
+              </td>
+              <td> {{order.amount}} </td>
+              <td> {{order.locationnumber}} </td>
+              <td> {{order.paymenttype}} </td>
+              <td> {{order.invoicenumber}} </td>
+              <td> {{order.user_name}} </td> 
+
+                  <td><a href="{{ route('CreditController.edit', { id: order.id }) }}" class="btn btn-info">Edit</a></td> 
+  
+                  <form class="form-horizontal" 
+                      action="{{ route('DailyrefundController.refundsUpdateCredit', { id: order.id }) }}" method="POST">
+                    <td>
+                          {{ csrfField() }}
+                              <dl class="dl-horizontal">
+                                  <dt>Credit: Complete</dt>
+                                  <dd>
+                                      <input required="required" name="deptstatus" type="checkbox" value="1">
+                                  </dd>
+                              </dl>
+                      </td>
+                      <td>
+                          <input type="submit" value="Apply" class="btn btn-success">     
+                                  
+                      </td>
+                      
+                  </form>
+            </tr>
+            @endeach
+          </tbody>
+        </table>
+    </div>
+  @endif
+
+  
+  
+@endsection
